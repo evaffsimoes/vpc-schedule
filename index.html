@@ -70,7 +70,8 @@
       font-weight: bold;
     }
     .selected-artists {
-      margin: 3.75rem;
+      font-size: 1.2rem !important;
+      margin: 3.75rem auto;
       background-color: rgba(0, 0, 0, 0.25);
       padding: 2rem 3rem;
       border-radius: 0.75rem;
@@ -79,38 +80,47 @@
       color: white;
       font-family: 'Arial', sans-serif;
       position: relative;
+      height: auto;
+      overflow: visible;
+      width: 100%;
     }
+
     .selected-artists h2 {
-      font-size: 1.8rem;
+      font-size: 1.6rem !important;
       font-weight: 700;
       margin-bottom: 1rem;
     }
+
     .selected-artists h3 {
-      margin-top: 1.875rem;
-      font-size: 1.6rem;
+      font-size: 1.4rem !important;
       font-weight: 600;
+      margin-top: 1.875rem;
     }
+
     .selected-artists ul {
       list-style: none;
       padding-left: 0;
       margin-top: 0.5rem;
+      max-height: 300px;
+      overflow-y: auto;
     }
+
     .selected-artists li {
+      font-size: 1.1rem !important;
+      font-weight: 600;
       margin: 0.5rem 0;
       padding: 0.5rem 1rem;
       background-color: rgba(255, 255, 255, 0.15);
       border-radius: 0.5rem;
       line-height: 2;
-      font-size: 1.1rem;
-      font-weight: 600;
       color: white;
       cursor: default;
       transition: background-color 0.3s ease;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
     }
-    .selected-artists li:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-    /* Botão download */
+
     #download-image {
       position: absolute;
       top: 15px;
@@ -137,7 +147,7 @@
     <h1>Vodafone Paredes de Coura</h1>
     <div id="schedule"></div>
 
-    <div class="selected-artists">
+    <div class="selected-artists" id="selected-artists">
       <h2>My Gigs</h2>
       <button id="download-image">Download imagem</button>
       <div id="selected-artists-list"></div>
@@ -326,13 +336,26 @@
     document.getElementById('download-image').addEventListener('click', () => {
       const selectedArtistsDiv = document.querySelector('.selected-artists');
       const button = document.getElementById('download-image');
-      button.style.display = 'none';
 
-      html2canvas(selectedArtistsDiv).then(canvas => {
+      button.style.display = 'none';
+      const originalWidth = selectedArtistsDiv.style.width;
+      selectedArtistsDiv.style.backgroundImage = "url('https://i.postimg.cc/RFRYVBNk/vpc.png')";
+      selectedArtistsDiv.style.backgroundRepeat = "no-repeat";
+      selectedArtistsDiv.style.backgroundSize = "cover";
+      selectedArtistsDiv.style.backgroundPosition = "center";
+
+      html2canvas(selectedArtistsDiv, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null
+      }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'artistas-selecionados.png';
         link.href = canvas.toDataURL();
         link.click();
+
+        selectedArtistsDiv.style.backgroundImage = "";
+        selectedArtistsDiv.style.width = originalWidth;
         button.style.display = 'block';
       });
     });
