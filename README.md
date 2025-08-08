@@ -10,7 +10,7 @@ Já que a Vodafone não um estagiário que lhes façam um site básico, aqui est
 
 ## ✨ Como usar
 
-1. Vai ao site 👉 [https://teu-username.github.io/vpc](https://teu-username.github.io/vpc)
+1. Vai ao site 👉 [https://evaffsimoes.github.io/vpc-schedule](https://evaffsimoes.github.io/vpc-schedule)
 2. Clica nos artistas que queres ver
 3. Desce até ao fim e vê o teu plano perfeito
 4. Partilha com amigxs ou ignora-os como quiseres
