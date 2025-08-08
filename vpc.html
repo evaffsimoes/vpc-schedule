@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Vodafone Paredes de Coura</title>
+  <style>
+    body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+      background-image: url('https://i.postimg.cc/RFRYVBNk/vpc.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #ED1C24;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    padding: 20px;
+    }
+    .content {
+        height: 100vh;
+        overflow-y: auto;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      margin-bottom: 40px;
+    }
+
+    .day-container {
+      margin-bottom: 40px;
+      padding: 80px;
+    }
+.day-container > h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 2em;
+}
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      background-color: rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 1.8rem;
+    }
+
+    th, td {
+      padding: 20px 8px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      background-color: rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+    }
+
+    td.selectable:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    td.selected {
+      background-color: rgba(255, 255, 255, 0.2);
+      font-weight: bold;
+    }
+
+    .selected-artists {
+      margin: 60px;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 50px;
+      border-radius: 12px;
+      margin-bottom: 50px;
+    }
+
+    .selected-artists h3 {
+      margin-top: 30px;
+      font-size: 1.2rem;
+    }
+    .selected-artists h2 {
+      font-size: 1.5rem;
+    }
+
+    .selected-artists ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .selected-artists li {
+      margin: 5px 0;
+      padding: 6px 12px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Vodafone Paredes de Coura</h1>
+    <div id="schedule"></div>
+
+    <div class="selected-artists">
+      <h2>My Gigs</h2>
+      <div id="selected-artists-list"></div>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      "13 de Agosto": [
+        ["16:30", "BacanaPlay", "Being Dead"],
+        ["17:15", "Vodafone", "Samuel Úria"],
+        ["18:00", "BacanaPlay", "Unsafe Space Garden"],
+        ["18:40", "Vodafone", "Nilüfer Yanya"],
+        ["19:40", "BacanaPlay", "Cass McCombs"],
+        ["20:40", "Vodafone", "MJ Lenderman & The Wind"],
+        ["21:40", "BacanaPlay", "Don West"],
+        ["22:25", "Vodafone", "Zaho de Sagazan"],
+        ["23:35", "BacanaPlay", "Capicua"],
+        ["00:20", "Vodafone", "Vampire Weekend"],
+        ["01:50", "BacanaPlay", "Joey Valence & Brae"],
+        ["02:45", "BacanaPlay", "Badsista"]
+      ],
+      "14 de Agosto": [
+        ["16:30", "BacanaPlay", "Bed Legs"],
+        ["17:10", "Vodafone", "Linda Martini"],
+        ["18:00", "BacanaPlay", "Glockenwise"],
+        ["18:40", "Vodafone", "Terno Rei"],
+        ["19:40", "BacanaPlay", "La Lom"],
+        ["20:40", "Vodafone", "Perfume Genius"],
+        ["21:40", "BacanaPlay", "Fat Dog"],
+        ["22:40", "Vodafone", "Lola Young"],
+        ["23:40", "BacanaPlay", "Soft Play"],
+        ["00:35", "Vodafone", "Portugal. The Man"],
+        ["01:50", "BacanaPlay", "Maruja"],
+        ["03:00", "BacanaPlay", "The Hellp"]
+      ],
+      "15 de Agosto": [
+        ["16:30", "BacanaPlay", "Memória de Peixe"],
+        ["17:10", "Vodafone", "Dino D'Santiago"],
+        ["18:00", "BacanaPlay", "Cassandra Jenkins"],
+        ["18:50", "Vodafone", "Geordie Greep"],
+        ["19:50", "BacanaPlay", "Bar Italia"],
+        ["20:45", "Vodafone", "Black Country, New Road"],
+        ["21:50", "BacanaPlay", "Lambrini Girls"],
+        ["22:35", "Vodafone", "King Krule"],
+        ["23:50", "BacanaPlay", "La Jungle"],
+        ["00:35", "Vodafone", "MK.Gee"],
+        ["01:35", "BacanaPlay", "Ela Minus"],
+        ["02:45", "BacanaPlay", "Jersey"]
+      ],
+      "16 de Agosto": [
+        ["16:30", "BacanaPlay", "Cassete Pirata"],
+        ["17:10", "Vodafone", "Ana Frango Elétrico"],
+        ["18:10", "BacanaPlay", "Chastity Belt"],
+        ["18:55", "Vodafone", "DIIV"],
+        ["19:55", "BacanaPlay", "Hinds"],
+        ["20:40", "Vodafone", "Sharon Van Etten & The Attachment"],
+        ["21:45", "BacanaPlay", "Warmduscher"],
+        ["22:45", "Vodafone", "Air"],
+        ["00:00", "BacanaPlay", "Lander & Adriaan"],
+        ["01:00", "Vodafone", "Franz Ferdinand"],
+        ["02:20", "BacanaPlay", "Gurriers"],
+        ["03:25", "BacanaPlay", "Chinobi Live"]
+      ]
+    };
+
+    const selectedArtists = {};
+
+    const container = document.getElementById("schedule");
+    const selectedContainer = document.getElementById("selected-artists-list");
+
+    Object.keys(data).forEach(day => {
+      selectedArtists[day] = new Set();
+
+      const dayDiv = document.createElement("div");
+      dayDiv.className = "day-container";
+
+      const title = document.createElement("h2");
+      title.textContent = day;
+      dayDiv.appendChild(title);
+
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `<tr><th>Hora</th><th>Palco Vodafone</th><th>Palco BacanaPlay</th></tr>`;
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      const horarios = {};
+
+      data[day].forEach(([hora, palco, artista]) => {
+        if (!horarios[hora]) horarios[hora] = {};
+        horarios[hora][palco] = artista;
+      });
+
+      Object.keys(horarios).forEach(hora => {
+        const tr = document.createElement("tr");
+        const tdHora = document.createElement("td");
+        tdHora.textContent = hora;
+        tr.appendChild(tdHora);
+
+        ["Vodafone", "BacanaPlay"].forEach(palco => {
+          const td = document.createElement("td");
+          const artista = horarios[hora][palco];
+          if (artista) {
+            td.textContent = artista;
+            td.classList.add("selectable");
+            td.addEventListener("click", () => {
+              const entry = `${hora} - ${artista}`;
+              if (selectedArtists[day].has(entry)) {
+                selectedArtists[day].delete(entry);
+                td.classList.remove("selected");
+              } else {
+                selectedArtists[day].add(entry);
+                td.classList.add("selected");
+              }
+              updateSelectedArtists();
+            });
+          }
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      dayDiv.appendChild(table);
+      container.appendChild(dayDiv);
+    });
+
+    function timeToSortableNumber(timeStr) {
+  const [hh, mm] = timeStr.split(':').map(Number);
+  const hourAdjusted = (hh < 6) ? hh + 24 : hh;
+  return hourAdjusted * 60 + mm;
+}
+
+function updateSelectedArtists() {
+  selectedContainer.innerHTML = "";
+  Object.keys(selectedArtists).forEach(day => {
+    if (selectedArtists[day].size === 0) return;
+
+    const dayTitle = document.createElement("h3");
+    dayTitle.textContent = day;
+    selectedContainer.appendChild(dayTitle);
+
+    const ul = document.createElement("ul");
+
+    Array.from(selectedArtists[day])
+      .sort((a, b) => {
+        const getTime = str => str.split(' - ')[0];
+        return timeToSortableNumber(getTime(a)) - timeToSortableNumber(getTime(b));
+      })
+      .forEach(artist => {
+        const li = document.createElement("li");
+        li.textContent = artist;
+        ul.appendChild(li);
+      });
+
+    selectedContainer.appendChild(ul);
+  });
+}
+
+  </script>
+</body>
+</html>
