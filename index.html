@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Vodafone Paredes de Coura</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    html {
-      font-size: 16px;
-    }
+    html { font-size: 16px; }
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
@@ -26,15 +25,9 @@
       padding: 1.25rem;
       box-sizing: border-box;
     }
-    h1 {
-      text-align: center;
-      font-size: 3rem;
-      margin-bottom: 2.5rem;
-    }
-    .day-container {
-      margin-bottom: 2.5rem;
-      padding: 5rem;
-    }
+    h1 { text-align: center; font-size: 3rem; margin-bottom: 2.5rem; }
+
+    .day-container { margin-bottom: 2.5rem; padding: 5rem; box-sizing: border-box; }
     .day-container > h2 {
       text-align: center;
       margin-bottom: 1.25rem;
@@ -55,20 +48,12 @@
     th, td {
       padding: 1.25rem 0.5rem;
       text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    th {
-      background-color: rgba(0, 0, 0, 0.3);
-      font-weight: bold;
-    }
-    td.selectable:hover {
-      cursor: pointer;
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    td.selected {
-      background-color: rgba(255, 255, 255, 0.2);
-      font-weight: bold;
-    }
+    th { background-color: rgba(0,0,0,0.3); font-weight: bold; }
+    td.selectable:hover { cursor: pointer; background-color: rgba(255,255,255,0.1); }
+    td.selected { background-color: rgba(255,255,255,0.2); font-weight: bold; }
+
     .selected-artists {
       font-size: 1.2rem !important;
       margin: 3.75rem;
@@ -76,25 +61,18 @@
       padding: 4rem 5rem;
       border-radius: 0.75rem;
       margin-bottom: 20rem;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
       color: white;
       font-family: 'Arial', sans-serif;
       position: relative;
       height: auto;
       overflow: visible;
+      width: auto;
+      box-sizing: border-box;
     }
 
-    .selected-artists h2 {
-      font-size: 1.6rem !important;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .selected-artists h3 {
-      font-size: 1.4rem !important;
-      font-weight: 600;
-      margin-top: 1.875rem;
-    }
+    .selected-artists h2 { font-size: 1.6rem !important; font-weight: 700; margin-bottom: 1rem; }
+    .selected-artists h3 { font-size: 1.4rem !important; font-weight: 600; margin-top: 1.875rem; }
 
     .selected-artists ul {
       list-style: none;
@@ -109,7 +87,7 @@
       font-weight: 600;
       margin: 0.5rem 0;
       padding: 0.5rem 1rem;
-      background-color: rgba(255, 255, 255, 0.15);
+      background-color: rgba(255,255,255,0.15);
       border-radius: 0.5rem;
       line-height: 2;
       color: white;
@@ -132,13 +110,11 @@
       border: none;
       border-radius: 0.5rem;
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(237, 28, 36, 0.8);
+      box-shadow: 0 0 10px rgba(237,28,36,0.8);
       transition: background-color 0.3s ease;
       z-index: 10;
     }
-    #download-image:hover {
-      background-color: #c7151a;
-    }
+    #download-image:hover { background-color: #c7151a; }
   </style>
 </head>
 <body>
@@ -147,7 +123,7 @@
     <div id="schedule"></div>
 
     <div class="selected-artists" id="selected-artists">
-      <h2>My Gigs</h2>
+      <h2>My Schedule</h2>
       <button id="download-image">Download imagem</button>
       <div id="selected-artists-list"></div>
     </div>
@@ -223,9 +199,7 @@
     const saved = localStorage.getItem('selectedArtists');
     if (saved) {
       const parsed = JSON.parse(saved);
-      Object.keys(parsed).forEach(day => {
-        selectedArtists[day] = new Set(parsed[day]);
-      });
+      Object.keys(parsed).forEach(day => selectedArtists[day] = new Set(parsed[day]));
     }
 
     Object.keys(data).forEach(day => {
@@ -257,18 +231,14 @@
         tdHora.textContent = hora;
         tr.appendChild(tdHora);
 
-        ["Vodafone", "BacanaPlay"].forEach(palco => {
+        ["Vodafone","BacanaPlay"].forEach(palco => {
           const td = document.createElement("td");
           const artista = horarios[hora][palco];
           if (artista) {
             td.textContent = artista;
             td.classList.add("selectable");
-
             const entry = `${hora} - ${artista}`;
-            if (selectedArtists[day].has(entry)) {
-              td.classList.add("selected");
-            }
-
+            if (selectedArtists[day].has(entry)) td.classList.add("selected");
             td.addEventListener("click", () => {
               if (selectedArtists[day].has(entry)) {
                 selectedArtists[day].delete(entry);
@@ -310,7 +280,7 @@
         const ul = document.createElement("ul");
 
         Array.from(selectedArtists[day])
-          .sort((a, b) => {
+          .sort((a,b) => {
             const getTime = str => str.split(' - ')[0];
             return timeToSortableNumber(getTime(a)) - timeToSortableNumber(getTime(b));
           })
@@ -332,33 +302,85 @@
       ));
     }
 
-    document.getElementById('download-image').addEventListener('click', () => {
+    document.getElementById('download-image').addEventListener('click', async () => {
       const selectedArtistsDiv = document.querySelector('.selected-artists');
       const button = document.getElementById('download-image');
-
       button.style.display = 'none';
-      const originalWidth = selectedArtistsDiv.style.width;
-      selectedArtistsDiv.style.backgroundImage = "url('https://i.postimg.cc/qvHXw6HK/Captura-de-ecr-2025-08-08-203125.png')";
-      selectedArtistsDiv.style.backgroundRepeat = "no-repeat";
-      selectedArtistsDiv.style.backgroundSize = "cover";
-      selectedArtistsDiv.style.backgroundPosition = "center";
+      const parent = selectedArtistsDiv.parentNode;
+      const nextSibling = selectedArtistsDiv.nextSibling;
+      const originalInline = {
+        width: selectedArtistsDiv.style.width || '',
+        backgroundImage: selectedArtistsDiv.style.backgroundImage || '',
+        backgroundRepeat: selectedArtistsDiv.style.backgroundRepeat || '',
+        backgroundSize: selectedArtistsDiv.style.backgroundSize || '',
+        backgroundPosition: selectedArtistsDiv.style.backgroundPosition || '',
+        backgroundColor: selectedArtistsDiv.style.backgroundColor || '',
+        margin: selectedArtistsDiv.style.margin || '',
+        padding: selectedArtistsDiv.style.padding || ''
+      };
 
-      html2canvas(selectedArtistsDiv, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null
-      }).then(canvas => {
+      const wrapper = document.createElement('div');
+      wrapper.setAttribute('aria-hidden','true');
+
+      wrapper.style.position = 'fixed';
+      wrapper.style.left = '50%';
+      wrapper.style.top = '50%';
+      wrapper.style.transform = 'translate(-50%, -50%)';
+      wrapper.style.zIndex = '9999';
+      wrapper.style.display = 'inline-block';
+      wrapper.style.padding = '24px';
+      wrapper.style.borderRadius = '12px';
+      wrapper.style.boxShadow = '0 30px 80px rgba(0,0,0,0.6)';
+      wrapper.style.background = "linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.25)), url('https://i.postimg.cc/qvHXw6HK/Captura-de-ecr-2025-08-08-203125.png')";
+      wrapper.style.backgroundSize = 'cover';
+      wrapper.style.backgroundPosition = 'center';
+      wrapper.style.overflow = 'visible';
+
+      const viewportW = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const contentWidth = selectedArtistsDiv.scrollWidth || selectedArtistsDiv.offsetWidth || 700;
+      const minNeeded = contentWidth + 80;
+      const desiredWidth = Math.min(Math.max(minNeeded, 700), Math.max(viewportW - 40, 400));
+      wrapper.style.width = desiredWidth + 'px';
+
+      selectedArtistsDiv.style.backgroundColor = 'rgba(0,0,0,0.35)';
+      selectedArtistsDiv.style.margin = '0';
+      parent.insertBefore(wrapper, selectedArtistsDiv);
+      wrapper.appendChild(selectedArtistsDiv);
+
+      try {
+        const canvas = await html2canvas(wrapper, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: null,
+          width: wrapper.offsetWidth,
+        });
+
         const link = document.createElement('a');
         link.download = 'artistas-selecionados.png';
-        link.href = canvas.toDataURL();
+        link.href = canvas.toDataURL('image/png');
         link.click();
+      } catch (err) {
+        console.error('Erro ao gerar imagem:', err);
+        alert('Ocorreu um erro ao gerar a imagem. Verifica a consola.');
+      } finally {
+        if (nextSibling) parent.insertBefore(selectedArtistsDiv, nextSibling);
+        else parent.appendChild(selectedArtistsDiv);
+        wrapper.remove();
 
-        selectedArtistsDiv.style.backgroundImage = "";
-        selectedArtistsDiv.style.width = originalWidth;
+        selectedArtistsDiv.style.width = originalInline.width;
+        selectedArtistsDiv.style.backgroundImage = originalInline.backgroundImage;
+        selectedArtistsDiv.style.backgroundRepeat = originalInline.backgroundRepeat;
+        selectedArtistsDiv.style.backgroundSize = originalInline.backgroundSize;
+        selectedArtistsDiv.style.backgroundPosition = originalInline.backgroundPosition;
+        selectedArtistsDiv.style.backgroundColor = originalInline.backgroundColor;
+        selectedArtistsDiv.style.margin = originalInline.margin;
+        selectedArtistsDiv.style.padding = originalInline.padding;
+
         button.style.display = 'block';
-      });
+      }
     });
 
+    // render initial selected list
     updateSelectedArtists();
   </script>
 </body>
