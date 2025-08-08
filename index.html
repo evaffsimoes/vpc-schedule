@@ -91,22 +91,22 @@
       font-weight: 600;
     }
     .selected-artists ul {
-      list-style: none;
+      min-height: 6rem;
       padding-left: 0;
       margin-top: 0.5rem;
     }
     .selected-artists li {
       margin: 0.5rem 0;
-      padding: 0.5rem 1rem;
-      background-color: rgba(255, 255, 255, 0.15);
-      border-radius: 0.5rem;
-      line-height: 1.4;
+      padding: 1rem 1rem;  /* aumenta o padding vertical */
       font-size: 1.1rem;
+      line-height: 1.4;
       font-weight: 600;
-      color: white;
+      border-radius: 0.5rem;
+      background-color: rgba(255, 255, 255, 0.15);
       cursor: default;
       transition: background-color 0.3s ease;
     }
+
     .selected-artists li:hover {
       background-color: rgba(255, 255, 255, 0.3);
     }
