@@ -1,115 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Vodafone Paredes de Coura</title>
   <style>
+    html {
+      font-size: 16px;
+    }
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-image: url('https://i.postimg.cc/RFRYVBNk/vpc.png');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-color: #ED1C24;
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+      padding: 1.25rem;
+    }
+    .content {
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1.25rem;
+      box-sizing: border-box;
+    }
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 2.5rem;
+    }
+    .day-container {
+      margin-bottom: 2.5rem;
+      padding: 5rem;
+    }
+    .day-container > h2 {
+      text-align: center;
+      margin-bottom: 1.25rem;
+      font-weight: 800;
+      font-size: 2rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0.625rem;
+      background-color: rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      font-size: 1.5rem;
+    }
+    th, td {
+      padding: 1.25rem 0.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    th {
+      background-color: rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+    }
+    td.selectable:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    td.selected {
+      background-color: rgba(255, 255, 255, 0.2);
+      font-weight: bold;
+    }
 
-  html {
-    font-size: 16px;
-  }
-
-  body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-image: url('https://i.postimg.cc/RFRYVBNk/vpc.png');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-color: #ED1C24;
-    color: white;
-    height: 100vh;
-    overflow: hidden;
-    padding: 1.25rem;
-  }
-
-  .content {
-    height: 100vh;
-    overflow-y: auto;
-    padding: 1.25rem;
-    box-sizing: border-box;
-  }
-
-  h1 {
-    text-align: center;
-    font-size: 3rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .day-container {
-    margin-bottom: 2.5rem;
-    padding: 5rem;
-  }
-
-  .day-container > h2 {
-    text-align: center;
-    margin-bottom: 1.25rem;
-    font-weight: 700;
-    font-size: 2rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 0.625rem;
-    background-color: rgba(0, 0, 0, 0.15);
-    box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
-    border-radius: 0.75rem;
-    overflow: hidden;
-    font-size: 1.5rem;
-  }
-
-  th, td {
-    padding: 1.25rem 0.5rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  th {
-    background-color: rgba(0, 0, 0, 0.3);
-    font-weight: bold;
-  }
-
-  td.selectable:hover {
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-
-  td.selected {
-    background-color: rgba(255, 255, 255, 0.2);
-    font-weight: bold;
-  }
-
-  .selected-artists {
-    margin: 3.75rem;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 3.125rem;
-    border-radius: 0.75rem;
-    margin-bottom: 3.125rem;
-  }
-
-  .selected-artists h3 {
-    margin-top: 1.875rem;
-    font-size: 1.7rem;
-  }
-
-  .selected-artists h2 {
-    font-size: 1.8rem;
-  }
-
-  .selected-artists ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  .selected-artists li {
-    margin: 0.3125rem 0;
-    padding: 0.25rem 0.5rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 0.5rem;
-    line-height: 1.3;
-  }
+    /* NOVO ESTILO PARA SELECTED-ARTISTS */
+    .selected-artists {
+      margin: 3.75rem;
+      background-color: rgba(0, 0, 0, 0.25);
+      padding: 2rem 3rem;
+      border-radius: 0.75rem;
+      margin-bottom: 3.125rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      color: white;
+      font-family: 'Arial', sans-serif;
+    }
+    .selected-artists h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .selected-artists h3 {
+      margin-top: 1.875rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    .selected-artists ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.5rem;
+    }
+    .selected-artists li {
+      margin: 0.5rem 0;
+      padding: 0.5rem 1rem;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 0.5rem;
+      line-height: 1.4;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      cursor: default;
+      transition: background-color 0.3s ease;
+    }
+    .selected-artists li:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -247,37 +248,36 @@
     });
 
     function timeToSortableNumber(timeStr) {
-  const [hh, mm] = timeStr.split(':').map(Number);
-  const hourAdjusted = (hh < 6) ? hh + 24 : hh;
-  return hourAdjusted * 60 + mm;
-}
+      const [hh, mm] = timeStr.split(':').map(Number);
+      const hourAdjusted = (hh < 6) ? hh + 24 : hh;
+      return hourAdjusted * 60 + mm;
+    }
 
-function updateSelectedArtists() {
-  selectedContainer.innerHTML = "";
-  Object.keys(selectedArtists).forEach(day => {
-    if (selectedArtists[day].size === 0) return;
+    function updateSelectedArtists() {
+      selectedContainer.innerHTML = "";
+      Object.keys(selectedArtists).forEach(day => {
+        if (selectedArtists[day].size === 0) return;
 
-    const dayTitle = document.createElement("h3");
-    dayTitle.textContent = day;
-    selectedContainer.appendChild(dayTitle);
+        const dayTitle = document.createElement("h3");
+        dayTitle.textContent = day;
+        selectedContainer.appendChild(dayTitle);
 
-    const ul = document.createElement("ul");
+        const ul = document.createElement("ul");
 
-    Array.from(selectedArtists[day])
-      .sort((a, b) => {
-        const getTime = str => str.split(' - ')[0];
-        return timeToSortableNumber(getTime(a)) - timeToSortableNumber(getTime(b));
-      })
-      .forEach(artist => {
-        const li = document.createElement("li");
-        li.textContent = artist;
-        ul.appendChild(li);
+        Array.from(selectedArtists[day])
+          .sort((a, b) => {
+            const getTime = str => str.split(' - ')[0];
+            return timeToSortableNumber(getTime(a)) - timeToSortableNumber(getTime(b));
+          })
+          .forEach(artist => {
+            const li = document.createElement("li");
+            li.textContent = artist;
+            ul.appendChild(li);
+          });
+
+        selectedContainer.appendChild(ul);
       });
-
-    selectedContainer.appendChild(ul);
-  });
-}
-
+    }
   </script>
 </body>
 </html>
