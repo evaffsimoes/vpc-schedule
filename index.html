@@ -69,7 +69,6 @@
       background-color: rgba(255, 255, 255, 0.2);
       font-weight: bold;
     }
-
     .selected-artists {
       margin: 3.75rem;
       background-color: rgba(0, 0, 0, 0.25);
@@ -79,6 +78,7 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       color: white;
       font-family: 'Arial', sans-serif;
+      position: relative;
     }
     .selected-artists h2 {
       font-size: 1.8rem;
@@ -91,24 +91,44 @@
       font-weight: 600;
     }
     .selected-artists ul {
-      min-height: 6rem;
+      list-style: none;
       padding-left: 0;
       margin-top: 0.5rem;
     }
     .selected-artists li {
       margin: 0.5rem 0;
-      padding: 1rem 1rem;  /* aumenta o padding vertical */
-      font-size: 1.1rem;
-      line-height: 1.4;
-      font-weight: 600;
-      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
       background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 0.5rem;
+      line-height: 2;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
       cursor: default;
       transition: background-color 0.3s ease;
     }
-
     .selected-artists li:hover {
       background-color: rgba(255, 255, 255, 0.3);
+    }
+    /* Botão download */
+    #download-image {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      background-color: #ED1C24;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(237, 28, 36, 0.8);
+      transition: background-color 0.3s ease;
+      z-index: 10;
+    }
+    #download-image:hover {
+      background-color: #c7151a;
     }
   </style>
 </head>
@@ -119,9 +139,13 @@
 
     <div class="selected-artists">
       <h2>My Gigs</h2>
+      <button id="download-image">Download imagem</button>
       <div id="selected-artists-list"></div>
     </div>
   </div>
+
+  <!-- html2canvas cdn -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <script>
     const data = {
@@ -179,17 +203,24 @@
         ["00:00", "BacanaPlay", "Lander & Adriaan"],
         ["01:00", "Vodafone", "Franz Ferdinand"],
         ["02:20", "BacanaPlay", "Gurriers"],
-        ["03:25", "BacanaPlay", "Xinobi Live"]
+        ["03:25", "BacanaPlay", "Chinobi Live"]
       ]
     };
 
     const selectedArtists = {};
-
     const container = document.getElementById("schedule");
     const selectedContainer = document.getElementById("selected-artists-list");
 
+    const saved = localStorage.getItem('selectedArtists');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.keys(parsed).forEach(day => {
+        selectedArtists[day] = new Set(parsed[day]);
+      });
+    }
+
     Object.keys(data).forEach(day => {
-      selectedArtists[day] = new Set();
+      if (!selectedArtists[day]) selectedArtists[day] = new Set();
 
       const dayDiv = document.createElement("div");
       dayDiv.className = "day-container";
@@ -223,8 +254,13 @@
           if (artista) {
             td.textContent = artista;
             td.classList.add("selectable");
+
+            const entry = `${hora} - ${artista}`;
+            if (selectedArtists[day].has(entry)) {
+              td.classList.add("selected");
+            }
+
             td.addEventListener("click", () => {
-              const entry = `${hora} - ${artista}`;
               if (selectedArtists[day].has(entry)) {
                 selectedArtists[day].delete(entry);
                 td.classList.remove("selected");
@@ -233,6 +269,7 @@
                 td.classList.add("selected");
               }
               updateSelectedArtists();
+              saveSelectedArtists();
             });
           }
           tr.appendChild(td);
@@ -277,6 +314,30 @@
         selectedContainer.appendChild(ul);
       });
     }
+
+    function saveSelectedArtists() {
+      localStorage.setItem('selectedArtists', JSON.stringify(
+        Object.fromEntries(
+          Object.entries(selectedArtists).map(([day, set]) => [day, Array.from(set)])
+        )
+      ));
+    }
+
+    document.getElementById('download-image').addEventListener('click', () => {
+      const selectedArtistsDiv = document.querySelector('.selected-artists');
+      const button = document.getElementById('download-image');
+      button.style.display = 'none';
+
+      html2canvas(selectedArtistsDiv).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'artistas-selecionados.png';
+        link.href = canvas.toDataURL();
+        link.click();
+        button.style.display = 'block';
+      });
+    });
+
+    updateSelectedArtists();
   </script>
 </body>
 </html>
