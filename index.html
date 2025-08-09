@@ -140,7 +140,7 @@ tbody tr:last-child td:last-child {
     .selected-artists h3 {
       font-size: 1.2rem !important;
       font-weight: 600;
-      margin-top: 1.5rem;
+      margin: 0;
       user-select: none;
     }
     .selected-artists ul {
@@ -454,8 +454,13 @@ tbody tr:last-child td:last-child {
       const viewportW = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       const contentWidth = selectedArtistsDiv.scrollWidth || selectedArtistsDiv.offsetWidth || 700;
       const minNeeded = contentWidth + 80;
+      const aspectRatio = 9 / 16;
       const desiredWidth = Math.min(Math.max(minNeeded, 700), Math.max(viewportW - 40, 400));
+      const desiredHeight = Math.round(desiredWidth * (16 / 9)); // altura = largura * (16/9) para 9:16 vertical
+
       wrapper.style.width = desiredWidth + 'px';
+      wrapper.style.height = desiredHeight + 'px';
+
 
       selectedArtistsDiv.style.backgroundColor = 'rgba(0,0,0,0.35)';
       selectedArtistsDiv.style.margin = '0';
@@ -467,7 +472,8 @@ tbody tr:last-child td:last-child {
           scale: 2,
           useCORS: true,
           backgroundColor: null,
-          width: wrapper.offsetWidth,
+          width: desiredWidth,
+          height: desiredHeight
         });
 
         const link = document.createElement('a');
