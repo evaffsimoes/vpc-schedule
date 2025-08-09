@@ -230,7 +230,7 @@ tbody tr:last-child td:last-child {
 
     <div class="selected-artists" id="selected-artists">
       <button id="download-image" title="Guardar imagem">Save Image</button>
-      <h2>My Schedule</h2>
+      <h2>VPC 2025</h2>
       <div id="selected-artists-list"></div>
     </div>
   </div>
@@ -346,8 +346,12 @@ tbody tr:last-child td:last-child {
           if (artista) {
             td.textContent = artista;
             td.classList.add("selectable");
-            const entry = `${hora} - ${artista}`;
+
+            const shortPalco = palco === "Vodafone" ? "[PV]" : "[BP]";
+            const entry = `${shortPalco} ${hora} - ${artista}`;
+
             if (selectedArtists[day].has(entry)) td.classList.add("selected");
+
             td.addEventListener("click", () => {
               if (selectedArtists[day].has(entry)) {
                 selectedArtists[day].delete(entry);
@@ -365,6 +369,7 @@ tbody tr:last-child td:last-child {
 
         tbody.appendChild(tr);
       });
+
 
       table.appendChild(tbody);
       dayDiv.appendChild(table);
