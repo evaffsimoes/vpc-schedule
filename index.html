@@ -49,58 +49,70 @@
       text-align: center;
       margin-bottom: 1rem;
       font-weight: 800;
-      font-size: 1.8rem;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
       user-select: none;
     }
 
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-bottom: 1rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
-  border-radius: 0.5rem;
-  font-size: 1.2rem;
-  table-layout: fixed;
-  word-wrap: break-word;
-  overflow: hidden;
-}
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-bottom: 1rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
+      border-radius: 0.5rem;
+      font-size: 1.2rem;
+      table-layout: fixed;
+      word-wrap: break-word;
+      overflow: hidden;
+    }
+    /* primeira coluna (hora) mais estreita */
+    table th:first-child,
+    table td:first-child {
+      width: 15%;
+      white-space: nowrap;
+    }
 
-th, td {
-  padding: 0.75rem 0.5rem;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  user-select: none;
-  overflow-wrap: break-word;
-  border-right: 1px solid rgba(255,255,255,0.15);
-}
+    /* segunda e terceira colunas ocupam o resto */
+    table th:nth-child(2),
+    table td:nth-child(2),
+    table th:nth-child(3),
+    table td:nth-child(3) {
+      width: 42.5%;
+    }
+    th, td {
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      user-select: none;
+      overflow-wrap: break-word;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
 
-tr > th:last-child,
-tr > td:last-child {
-  border-right: none;
-}
+    tr > th:last-child,
+    tr > td:last-child {
+      border-right: none;
+    }
 
-tbody tr:last-child td {
-  border-bottom: none;
-}
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
 
-thead tr th:first-child {
-  border-top-left-radius: 0.5rem;
-}
+    thead tr th:first-child {
+      border-top-left-radius: 0.5rem;
+    }
 
-thead tr th:last-child {
-  border-top-right-radius: 0.5rem;
-}
+    thead tr th:last-child {
+      border-top-right-radius: 0.5rem;
+    }
 
-tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 0.5rem;
-}
+    tbody tr:last-child td:first-child {
+      border-bottom-left-radius: 0.5rem;
+    }
 
-tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 0.5rem;
-}
+    tbody tr:last-child td:last-child {
+      border-bottom-right-radius: 0.5rem;
+    }
 
     th {
       background-color: rgba(0,0,0,0.4);
@@ -147,8 +159,6 @@ tbody tr:last-child td:last-child {
       list-style: none;
       padding-left: 0;
       margin-top: 0.5rem;
-      max-height: 260px;
-      overflow-y: auto;
     }
     .selected-artists li {
       font-size: 1rem !important;
@@ -188,10 +198,10 @@ tbody tr:last-child td:last-child {
     /* RESPONSIVO para telas pequenas */
     @media (max-width: 600px) {
       html {
-        font-size: 14px;
+        font-size: 12px;
       }
       h1 {
-        font-size: 2rem;
+        font-size: 1.6rem;
       }
       .day-container {
         padding: 0.5rem;
@@ -207,9 +217,6 @@ tbody tr:last-child td:last-child {
         padding: 1.5rem 1.5rem;
         margin: 1rem auto 5rem;
         max-width: 100%;
-      }
-      .selected-artists ul {
-        max-height: 180px;
       }
       .selected-artists li {
         font-size: 0.9rem !important;
@@ -230,11 +237,10 @@ tbody tr:last-child td:last-child {
 
     <div class="selected-artists" id="selected-artists">
       <button id="download-image" title="Guardar imagem">Save Image</button>
-      <h2>VPC 2025</h2>
+      <h2>Vodafone Paredes de Coura</h2>
       <div id="selected-artists-list"></div>
     </div>
   </div>
-
 
   <!-- html2canvas cdn -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -310,7 +316,6 @@ tbody tr:last-child td:last-child {
       Object.keys(parsed).forEach(day => selectedArtists[day] = new Set(parsed[day]));
     }
 
-    // Render schedule tables with clickable artists
     Object.keys(data).forEach(day => {
       if (!selectedArtists[day]) selectedArtists[day] = new Set();
 
@@ -323,7 +328,7 @@ tbody tr:last-child td:last-child {
 
       const table = document.createElement("table");
       const thead = document.createElement("thead");
-      thead.innerHTML = `<tr><th>Hora</th><th>Palco Vodafone</th><th>Palco BacanaPlay</th></tr>`;
+      thead.innerHTML = `<tr><th>Hora</th><th>Vodafone</th><th>BacanaPlay</th></tr>`;
       table.appendChild(thead);
 
       const tbody = document.createElement("tbody");
@@ -347,7 +352,7 @@ tbody tr:last-child td:last-child {
             td.textContent = artista;
             td.classList.add("selectable");
 
-            const shortPalco = palco === "Vodafone" ? "[PV]" : "[BP]";
+            const shortPalco = palco === "Vodafone" ? "[V]" : "[BP]";
             const entry = `${shortPalco} ${hora} - ${artista}`;
 
             if (selectedArtists[day].has(entry)) td.classList.add("selected");
@@ -369,7 +374,6 @@ tbody tr:last-child td:last-child {
 
         tbody.appendChild(tr);
       });
-
 
       table.appendChild(tbody);
       dayDiv.appendChild(table);
@@ -455,12 +459,17 @@ tbody tr:last-child td:last-child {
       const contentWidth = selectedArtistsDiv.scrollWidth || selectedArtistsDiv.offsetWidth || 700;
       const minNeeded = contentWidth + 80;
       const aspectRatio = 9 / 16;
+      
       const desiredWidth = Math.min(Math.max(minNeeded, 700), Math.max(viewportW - 40, 400));
-      const desiredHeight = Math.round(desiredWidth * (16 / 9)); // altura = largura * (16/9) para 9:16 vertical
+      
+      const contentHeight = selectedArtistsDiv.scrollHeight;
+      const padding = 48; // padding do wrapper
+      const minHeight = desiredWidth / aspectRatio;
+
+      const desiredHeight = Math.max(minHeight, contentHeight + padding);
 
       wrapper.style.width = desiredWidth + 'px';
       wrapper.style.height = desiredHeight + 'px';
-
 
       selectedArtistsDiv.style.backgroundColor = 'rgba(0,0,0,0.35)';
       selectedArtistsDiv.style.margin = '0';
