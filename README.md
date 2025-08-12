@@ -1,6 +1,6 @@
 # 🎸 VPC — Schedules
 
-Já que a Vodafone não um estagiário que lhes façam um site básico, aqui está o que precisas para organizares o Paredes de Coura.
+Aqui está o que precisas para organizares o Paredes de Coura.
 
 ## 📅 O que isto faz?
 
