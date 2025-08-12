@@ -459,6 +459,8 @@
       wrapper.style.background = "linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.25)), url('https://i.postimg.cc/qvHXw6HK/Captura-de-ecr-2025-08-08-203125.png')";
       wrapper.style.backgroundSize = 'cover';
       wrapper.style.backgroundPosition = 'center';
+      wrapper.style.backdropFilter = "blur(2px)";
+      wrapper.style.webkitBackdropFilter = "blur(2px)";
       wrapper.style.overflow = 'visible';
 
       const viewportW = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
